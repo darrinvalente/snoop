@@ -62,7 +62,7 @@
 			</Hides>
 		</DataType>
 	</DataTypes>
-	<Project ProjectGUID="{177B3870-E90F-45A3-AEEC-31A23EDD5F31}" ShowHideConfigurations="#x6">
+	<Project ProjectGUID="{177B3870-E90F-45A3-AEEC-31A23EDD5F31}" TargetNetId="5.36.119.60.1.1" ShowHideConfigurations="#x6">
 		<System>
 			<Tasks>
 				<Task Id="2" Priority="20" CycleTime="100000" AmsPort="350">
@@ -73,5 +73,8 @@
 		<Plc>
 			<Project File="Controller.xti"/>
 		</Plc>
+		<Io>
+			<Device File="Device 1 (EtherCAT).xti" Id="1"/>
+		</Io>
 	</Project>
 </TcSmProject>
