@@ -23,7 +23,8 @@ bld/
 [Bb]in/
 [Oo]bj/
 _[Bb]oot/
-_CompileInfo/
+_[Cc]ompileInfo/
+_[Ll]ibraries/
 
 # Visual Studio 2015 cache/options directory
 .vs/
