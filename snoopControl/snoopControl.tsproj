@@ -68,6 +68,9 @@
 				<Task Id="2" Priority="20" CycleTime="100000" AmsPort="350">
 					<Name>PlcTask</Name>
 				</Task>
+				<Task Id="4" Priority="1" CycleTime="100000" AmsPort="351">
+					<Name>IOTask</Name>
+				</Task>
 			</Tasks>
 		</System>
 		<Plc>
