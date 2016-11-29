@@ -62,7 +62,7 @@
 			</Hides>
 		</DataType>
 	</DataTypes>
-	<Project ProjectGUID="{177B3870-E90F-45A3-AEEC-31A23EDD5F31}" Target64Bit="true" ShowHideConfigurations="#x6">
+	<Project ProjectGUID="{177B3870-E90F-45A3-AEEC-31A23EDD5F31}" ShowHideConfigurations="#x6">
 		<System>
 			<Tasks>
 				<Task Id="2" Priority="20" CycleTime="100000" AmsPort="350">
