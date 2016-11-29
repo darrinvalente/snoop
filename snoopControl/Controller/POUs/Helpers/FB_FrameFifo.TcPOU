@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.6">
+  <POU Name="FB_FrameFifo" Id="{1afc9f45-38ea-45c8-90ef-68f2a0a8ee89}" SpecialFunc="None">
+    <Declaration><![CDATA[(* Tx/Rx (string data) fifo control function block *)
+FUNCTION_BLOCK FB_FrameFifo
+VAR_INPUT
+	bLog		: BOOL			:= FALSE;			(* TRUE => Enable log message output, FALSE => Disable *)
+	sPrefix		: STRING		:= 'Unknown::';		(* Log message description string (allows the identification of log message source) *)
+	sPut		: T_MaxString 	:= ''; 				(* String message to add (write) to the fifo *)
+END_VAR
+VAR_OUTPUT
+	bOk			: BOOL; 	 						(* TRUE = New entry added or removed succesfully, FALSE = Fifo overflow or fifo empty *)
+	sGet		: T_MaxString 	:= '';				(* String message removed (read) from fifo *)
+	nCount		: UDINT			:= 0;				(* Number of fifo entries *)
+	cbFree		: UDINT 		:= 0;				(* Free buffer space *)	
+END_VAR
+VAR
+	fbBuffer 	: FB_StringRingBuffer := (bOverwrite := FALSE);(* Basic (lower level) string buffer control function block *)
+	buffer		: ARRAY[-3..GVL.PLCPRJ_BUFFER_SIZE] OF BYTE;(* Internal buffer memory *)	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[;]]></ST>
+    </Implementation>
+    <Action Name="AddToTail" Id="{292b3a2d-9710-4510-8880-4acb196b9e53}">
+      <Implementation>
+        <ST><![CDATA[(* Adds new fifo entry *)
+fbBuffer.A_AddTail( pBuffer:= ADR(buffer), cbBuffer:= SIZEOF(buffer),
+					putValue:= sPut, bOk=>bOk, nCount=>nCount );
+IF bOk THEN
+	cbFree := GVL.PLCPRJ_BUFFER_SIZE - fbBuffer.cbSize;(* Calculate the free buffer space *)
+	IF bLog THEN(* Log message *)
+		ADSLOGSTR( ADSLOG_MSGTYPE_HINT OR ADSLOG_MSGTYPE_LOG, CONCAT( sPrefix, '<="%s"' ), sPut );
+	END_IF
+END_IF]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="Clear" Id="{5513eda0-14f3-4019-8e0f-b4e36152c9ff}">
+      <Implementation>
+        <ST><![CDATA[(* Resets fifo = clears all data *)
+fbBuffer.A_Reset( pBuffer:= ADR(buffer), cbBuffer:= SIZEOF(buffer),
+				bOk=>bOk, getValue=>sGet, nCount=>nCount );
+				
+cbFree := GVL.PLCPRJ_BUFFER_SIZE;(* Free buffer size *)]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="RemoveFromHead" Id="{8301109d-9429-4c10-8d81-b07b0e1b79f7}">
+      <Implementation>
+        <ST><![CDATA[(* Removes oldest fifo entry *)
+fbBuffer.A_RemoveHead( pBuffer:= ADR(buffer), cbBuffer:= SIZEOF(buffer),
+						bOk=>bOk, getValue=>sGet, nCount=>nCount );
+IF bOk THEN
+	cbFree := GVL.PLCPRJ_BUFFER_SIZE - fbBuffer.cbSize;(* Calculate the free buffer space *)
+END_IF]]></ST>
+      </Implementation>
+    </Action>
+  </POU>
+</TcPlcObject>

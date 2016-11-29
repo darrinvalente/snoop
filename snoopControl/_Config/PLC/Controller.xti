@@ -4,9 +4,34 @@
 		<Instance Id="#x01010010" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2">
 			<Name>Controller Instance</Name>
 			<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
+			<Vars VarGrpType="1">
+				<Name>PlcTask Inputs</Name>
+				<Var>
+					<Name>GVL.READ_ZONE_BEGIN</Name>
+					<Type>BOOL</Type>
+				</Var>
+			</Vars>
+			<Vars VarGrpType="2">
+				<Name>PlcTask Outputs</Name>
+				<Var>
+					<Name>GVL.RFID_TAG</Name>
+					<Type>STRING(15)</Type>
+				</Var>
+				<Var>
+					<Name>GVL.SET_TEST_OUTPUT</Name>
+					<Type>BOOL</Type>
+				</Var>
+			</Vars>
 			<TaskPouOids>
 				<TaskPouOid Prio="20" OTCID="#x01010011"/>
 			</TaskPouOids>
 		</Instance>
 	</Project>
+	<Mappings>
+		<OwnerA Name="Controller Instance">
+			<OwnerB Name="TIID^Device 1 (EtherCAT)^Term 1 (EK1100)^Term 2 (EL1859)">
+				<Link VarA="PlcTask Outputs^GVL.SET_TEST_OUTPUT" VarB="Channel 9^Output"/>
+			</OwnerB>
+		</OwnerA>
+	</Mappings>
 </TcSmItem>

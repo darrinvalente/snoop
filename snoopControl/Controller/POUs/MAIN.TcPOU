@@ -1,14 +1,36 @@
-<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.36">
-  <POU Name="MAIN" Id="{827a0067-c5be-446b-8260-92b5c83418de}">
-    <Declaration>
-      <![CDATA[PROGRAM MAIN
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.6">
+  <POU Name="MAIN" Id="{827a0067-c5be-446b-8260-92b5c83418de}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
 VAR
+	bSocketCloseAll			: BOOL := TRUE;
+	fbSocketCloseAll		: FB_SocketCloseAll;
+	fbSocketClient			: FB_SocketClient := ( 	sRemoteHost := GVL.sSocketRemoteHost,(* Remote (server) IP address! *)
+										nRemotePort := GVL.nSocketRemotePort,(* Remote (server) port number! *)  
+										sPrefix := 'CLIENT::' );(* Application (connection) instance *)
+										
+	bEnableSocket			: BOOL 	:= TRUE;   (* TRUE => enable client data exchange, FALSE => disable *)
+	bEnableLogging			: BOOL	:= TRUE;   (* TRUE => Enable message/error log, FALSE => Disable *)
 END_VAR
-]]>
-    </Declaration>
+]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[(* On PLC reset or program download close all old (opened) connections *)
+fbSocketCloseAll( 	sSrvNetID := GVL.sSrvNetID, 
+					bExecute:= bSocketCloseAll );
+					
+IF fbSocketCloseAll.bBusy OR fbSocketCloseAll.bError THEN
+	RETURN;
+END_IF
+bSocketCloseAll := FALSE;
+
+fbSocketClient( sSrvNetId := GVL.sSrvNetID, 
+				bEnable := bEnableSocket, 
+				bLog := bEnableLogging );
+				
+IF GVL.TON_FLASH.Q THEN
+	GVL.TON_FLASH( IN := FALSE);
+	GVL.SET_TEST_OUTPUT := 0;
+END_IF]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>
