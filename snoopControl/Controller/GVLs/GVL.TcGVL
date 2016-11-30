@@ -23,7 +23,7 @@ VAR_GLOBAL
 	sSocketRemoteHost			: T_IPv4Addr := '10.5.1.166';		(* Remote Socket Server IP Address*)
 	nSocketRemotePort			: UDINT := 14150;  					(* Server port number *)
 	
-	RFID_TAG			AT %Q*	: STRING(15);
+	RFID_TAG			AT %Q*	: STRING(40);
 	READ_ZONE_BEGIN 	AT %I*	: BOOL;
 	SET_TEST_OUTPUT		AT %Q* 	: BOOL;
 	TON_FLASH					: TON;

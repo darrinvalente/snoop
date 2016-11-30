@@ -64,6 +64,11 @@
 	</DataTypes>
 	<Project ProjectGUID="{177B3870-E90F-45A3-AEEC-31A23EDD5F31}" TargetNetId="5.36.119.60.1.1" ShowHideConfigurations="#x6">
 		<System>
+			<Licenses>
+				<Target>
+					<ManualSelect>{3EBB9639-5FF3-42B6-8847-35C70DC013C8}</ManualSelect>
+				</Target>
+			</Licenses>
 			<Tasks>
 				<Task Id="2" Priority="20" CycleTime="100000" AmsPort="350">
 					<Name>PlcTask</Name>
@@ -71,13 +76,13 @@
 				<Task Id="4" Priority="1" CycleTime="100000" AmsPort="351">
 					<Name>IOTask</Name>
 				</Task>
+				<Task Id="5" Priority="30" CycleTime="2000000" AmsPort="352">
+					<Name>VISU_TASK</Name>
+				</Task>
 			</Tasks>
 		</System>
 		<Plc>
 			<Project File="Controller.xti"/>
 		</Plc>
-		<Io>
-			<Device File="Device 1 (EtherCAT).xti" Id="1"/>
-		</Io>
 	</Project>
 </TcSmProject>

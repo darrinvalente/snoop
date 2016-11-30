@@ -14,24 +14,25 @@
 			<Vars VarGrpType="2">
 				<Name>PlcTask Outputs</Name>
 				<Var>
-					<Name>GVL.RFID_TAG</Name>
-					<Type>STRING(15)</Type>
-				</Var>
-				<Var>
 					<Name>GVL.SET_TEST_OUTPUT</Name>
 					<Type>BOOL</Type>
 				</Var>
+				<Var>
+					<Name>GVL.RFID_TAG</Name>
+					<Type>STRING(40)</Type>
+				</Var>
 			</Vars>
+			<UnrestoredVarLinks ImportTime="2016-11-30T10:53:45">
+				<OwnerA Name="OutputSrc" Prefix="TIPC^Controller^Controller Instance" Type="2">
+					<OwnerB Name="TIID^Device 1 (TC3 EIP Adapter)^Box 1 (TC EtherNet/IP Slave)">
+						<Link VarA="GVL.SET_TEST_OUTPUT" TypeA="DINT" InOutA="1" GuidA="{18071995-0000-0000-0000-000000000009}" VarB="Assembly 1 (Input/Output)^Outputs^TAG_STATUS" OldTypeA="DINT" OldGuidA="{18071995-0000-0000-0000-000000000009}" NewTypeA="INT" NewGuidA="{18071995-0000-0000-0000-000000000006}" RestoreInfo="BNotFound"/>
+					</OwnerB>
+				</OwnerA>
+			</UnrestoredVarLinks>
 			<TaskPouOids>
+				<TaskPouOid Prio="30" OTCID="#x01010012"/>
 				<TaskPouOid Prio="20" OTCID="#x01010011"/>
 			</TaskPouOids>
 		</Instance>
 	</Project>
-	<Mappings>
-		<OwnerA Name="Controller Instance">
-			<OwnerB Name="TIID^Device 1 (EtherCAT)^Term 1 (EK1100)^Term 2 (EL1859)">
-				<Link VarA="PlcTask Outputs^GVL.SET_TEST_OUTPUT" VarB="Channel 9^Output"/>
-			</OwnerB>
-		</OwnerA>
-	</Mappings>
 </TcSmItem>
